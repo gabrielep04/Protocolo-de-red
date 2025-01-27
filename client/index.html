@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente TCP/UDP</title>
+</head>
+<body>
+    <h1>Cliente TCP/UDP</h1>
+    <form id="clientForm">
+        <label for="connectionType">Protocolo:</label>
+        <select id="connectionType" name="connectionType">
+            <option value="tcp">TCP</option>
+            <option value="udp">UDP</option>
+        </select>
+
+        <label for="operationType">Operación:</label>
+        <select id="operationType" name="operationType">
+            <option value="email">Enviar Correo</option>
+            <option value="createfile">Crear Archivo</option>
+            <option value="deletefile">Eliminar Archivo</option>
+            <option value="morse">Descifrar Código Morse</option>
+        </select>
+
+        <div id="dynamicFields"></div>
+
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="response"></div>
+    <script type="module" src="client.js"></script>
+</body>
+</html>

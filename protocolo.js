@@ -12,9 +12,6 @@ class Protocolo {
         };
 
         this.body = null;
-
-        this.footer = {
-        };
     }
 
     //Metodo estatico para registrar los tipos de paquetes y sus validadores
@@ -35,15 +32,12 @@ class Protocolo {
     setBody(body) {
         if (this.header.type && Protocolo.typeValidators[this.header.type](body)) {
             this.body = body;
-            this.header.payloadSize = body.length;
+            this.header.payloadSize = body.size;
+            console.log(body.size);
+            
         } else {
             throw new Error(`Cuerpo del paquete no válido para el tipo: ${this.header.type}`);
         }
-    }
-
-    //Setter para el footer
-    setFooter(checksum){
-        this.footer.checksum = checksum;
     }
 
     //Validar el paquete
@@ -62,14 +56,14 @@ class Protocolo {
         return true;
     }
 
-
     //Serializamos el paquete
     serialize(){
-        header = JSON.stringify(this.header);
-        body = JSON.stringify(this.body);
-        footer = JSON.stringify(this.footer);
+        const packet = {
+            header: this.header,
+            body: this.body
+        };
 
-        return `${header}${body}${footer}`;
+        return JSON.stringify(packet);
     }
 
     //Deserializamos el paquete
@@ -78,7 +72,6 @@ class Protocolo {
         const protocolo = new Protocolo();
         protocolo.header = parsed.header;
         protocolo.body = parsed.body;
-        protocolo.footer = parsed.footer;
         return protocolo;
     }
 }
