@@ -15,7 +15,7 @@ const serializedPacket = protocolo.serialize();
 console.log('Enviando paquete:', serializedPacket);
 
 // Crear el cliente
-const client = net.createConnection({ port: 5000 }, () => {
+const client = net.createConnection({ port: 7000 }, () => {
     console.log('Conectado al servidor.');
     client.write(serializedPacket); // Enviar el paquete al servidor
 });
