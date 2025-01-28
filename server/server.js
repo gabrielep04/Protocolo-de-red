@@ -10,7 +10,7 @@ Protocolo.registerType('email', (body) => {
 });
 
 Protocolo.registerType('createfile', (body) => {
-    return body && typeof body.text === 'string' && typeof body.name === 'string' && typeof body.path === 'string';
+    return body && typeof body.name === 'string' && typeof body.path === 'string' && typeof body.text === 'string';
 });
 
 Protocolo.registerType('deletefile', (body) => {
@@ -19,6 +19,10 @@ Protocolo.registerType('deletefile', (body) => {
 
 Protocolo.registerType('morse', (body) => {
     return body && typeof body.text === 'string';
+});
+
+Protocolo.registerType('response', (body) => {
+    return body && typeof body.status === 'string' && typeof body.message === 'string';
 });
 
 //Servidor TCP
@@ -42,6 +46,8 @@ const serverTCP = net.createServer((socket) => {
 
             handleRequest(request, (response) => {
             // Crear una instancia de Protocolo para la respuesta
+            console.log("respuesta:", response);
+            
             const responsePacket = new Protocolo();
             responsePacket.setHeader('response', Date.now()); // Ajusta el tipo y el número de secuencia según sea necesario
             responsePacket.setBody(response);
@@ -74,8 +80,13 @@ serverUDP.on('message', (msg, rinfo) => {
         console.log('Paquete recibido por UDP:', request);
 
         handleRequest(request, (response) => {
+            // Crear una instancia de Protocolo para la respuesta
+            const responsePacket = new Protocolo();
+            responsePacket.setHeader('response', Date.now()); // Ajusta el tipo y el número de secuencia según sea necesario
+            responsePacket.setBody(response);
+
             // Enviar la respuesta al cliente
-            const responseData = Buffer.from(Protocolo.serialize(response));
+            const responseData = Buffer.from(responsePacket.serialize());
             serverUDP.send(responseData, rinfo.port, rinfo.address, (err) => {
                 if (err) console.error('Error enviando respuesta UDP:', err);
             });
@@ -136,7 +147,7 @@ function handleRequest(request, callback) {
                 }
             });
             break;
-        case 'createFile':
+        case 'createfile':
             const { text: fileContent, name: fileName, path: filePath } = body;
         
             const fs = require('fs');
@@ -152,12 +163,13 @@ function handleRequest(request, callback) {
                 }
             });
             break;            
-        case 'deleteFile':
+        case 'deletefile':
             const { name: deleteFileName, path: deleteFilePath } = body;
         
+            const file = require('fs');
             const deleteFullPath = `${deleteFilePath}/${deleteFileName}`;
         
-            fs.unlink(deleteFullPath, (err) => {
+            file.unlink(deleteFullPath, (err) => {
                 if (err) {
                     console.error('Error eliminando archivo:', err);
                     callback({ status: 'error', message: 'No se pudo eliminar el archivo' });
@@ -167,7 +179,7 @@ function handleRequest(request, callback) {
                 }
             });
             break;       
-        case 'decodeMorse':
+        case 'morse':
             const { text: morseText } = body;
         
             const morseCodeMap = {

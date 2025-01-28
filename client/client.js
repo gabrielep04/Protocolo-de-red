@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('clientForm');
     const operationType = document.getElementById('operationType');
     const dynamicFields = document.getElementById('dynamicFields');
+    const responseDiv = document.getElementById('response');
 
     const fieldTemplates = {
         email: `
@@ -25,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="text" id="name" name="name" required>
             <label for="path">Ruta:</label>
             <input type="text" id="path" name="path" required>
+        `,
+        morse:`
+            <label for="text">Texto a convertir:</label>
+            <textarea id="text" name="text" required></textarea>
         `
     };
 
@@ -60,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ "operation": operation, "body": bodyObj })
 
             });
-            console.log("hola soy response:", response);
 
             if (!response.ok) {
                 throw new Error('Error en la respuesta del servidor');
@@ -68,8 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             console.log('Respuesta del servidor:', result);
+
+            // Mostrar la respuesta en el HTML
+            let responseHtml = `<pre>Message: ${result.body.message}</pre>`;
+            if (result.body.result !== undefined) {
+                responseHtml = `<pre>Result: ${result.body.result}\nMessage: ${result.body.message}</pre>`;
+            }
+            responseDiv.innerHTML = responseHtml;
         } catch (error) {
             console.error('Error al enviar el paquete:', error);
+            responseDiv.innerHTML = `<pre>Error: ${error.message}</pre>`;
         }
     });
 });
