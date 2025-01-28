@@ -33,7 +33,6 @@ class Protocolo {
         if (this.header.type && Protocolo.typeValidators[this.header.type](body)) {
             this.body = body;
             this.header.payloadSize = body.size;
-            console.log(body.size);
             
         } else {
             throw new Error(`Cuerpo del paquete no válido para el tipo: ${this.header.type}`);

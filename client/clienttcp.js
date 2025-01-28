@@ -9,7 +9,6 @@ Protocolo.registerType('textMessage', (body) => {
 const protocolo = new Protocolo();
 protocolo.setHeader('textMessage', 1);
 protocolo.setBody({ text: 'Hola desde el cliente', recipient: 'servidor@example.com' });
-protocolo.setFooter({ timestamp: Date.now().toString() });
 
 // Serializar el paquete
 const serializedPacket = protocolo.serialize();

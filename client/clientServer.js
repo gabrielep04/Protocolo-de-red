@@ -9,9 +9,12 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/tcp', (req, res) => {
+
     const { operation, body } = req.body;
     console.log("hola soy el body", req.body);
-    
+    console.log(operation);
+    console.log(body);
+
     Protocolo.registerType('email', (body) => {
         return body && typeof body.text === 'string' && typeof body.recipient === 'string' && typeof body.subject === 'string';
     });
@@ -28,10 +31,14 @@ app.post('/tcp', (req, res) => {
         return body && typeof body.text === 'string';
     });
 
+    console.log("db1");
+
     const client = new net.Socket();
     const protocolo = new Protocolo();
     protocolo.setHeader(operation, 1);
     protocolo.setBody(body);
+
+    console.log("db2");
 
     client.connect(5000, 'localhost', () => {
         client.write(protocolo.serialize());
@@ -49,7 +56,6 @@ app.post('/tcp', (req, res) => {
 
 app.post('/udp', (req, res) => {
     const { operation, body } = req.body;
-
     const protocolo = new Protocolo();
     protocolo.setHeader(operation, 1);
     protocolo.setBody(body);

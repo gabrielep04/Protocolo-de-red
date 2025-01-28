@@ -38,7 +38,7 @@ const server = net.createServer((socket) => {
 });
 
 // Escuchar en un puerto específico
-const PORT = 5000;
+const PORT = 7000;
 server.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

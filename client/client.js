@@ -39,22 +39,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const connectionType = form.connectionType.value;
         const operation = form.operationType.value;
-        console.log(operation);
-        console.log(connectionType);
-        
+
+        //console.log(operation);
+        //console.log(connectionType);
         
         const formData = new FormData(form);
         const body = Object.fromEntries(formData.entries());
-        console.log(JSON.stringify(body));
+        const bodyObj = JSON.parse(JSON.stringify(body));
+        delete bodyObj.connectionType;
+        delete bodyObj.operationType;
+
+        //console.log(bodyObj);
+        //console.log(JSON.stringify(body));
 
         try {
             
-            console.log("hola");
-            
-            const response = await fetch(`http://localhost:5000/${connectionType}`, {
+            const response = await fetch(`http://localhost:3000/${connectionType}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify({ "operation": operation, "body": bodyObj })
+
             });
             console.log("hola soy response:", response);
 

@@ -26,8 +26,8 @@ const serverTCP = net.createServer((socket) => {
     console.log('Cliente conectado.');
 
     socket.on('data', (data) => {
+        console.log('\nDatos recibidos del cliente:', data.toString());
         try {
-            console.log('Datos recibidos del cliente:', data.toString());
 
             // Deserializar los datos recibidos
             const request = Protocolo.deserialize(data.toString());
