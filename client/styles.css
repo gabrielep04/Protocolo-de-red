@@ -1,0 +1,82 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #4a90e2;
+    text-align: center;
+    margin: 1rem 0; /* Separación del borde superior */
+}
+
+form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    margin-top: auto; /* Empuja el formulario hacia abajo */
+    margin-bottom: auto; /* Centra verticalmente con el resto del espacio */
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+select,
+input[type="text"],
+input[type="email"],
+textarea,
+button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+button {
+    background-color: #4a90e2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #357ab7;
+}
+
+#response {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #66bb6a;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+}
