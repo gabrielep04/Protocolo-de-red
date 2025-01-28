@@ -41,8 +41,13 @@ const serverTCP = net.createServer((socket) => {
             }
 
             handleRequest(request, (response) => {
-                // Enviar la respuesta al cliente
-                socket.write(Protocolo.serialize(response));
+            // Crear una instancia de Protocolo para la respuesta
+            const responsePacket = new Protocolo();
+            responsePacket.setHeader('response', Date.now()); // Ajusta el tipo y el número de secuencia según sea necesario
+            responsePacket.setBody(response);
+
+            // Enviar la respuesta al cliente
+            socket.write(responsePacket.serialize());
             });
         } catch (err) {
             console.error('Error al procesar el paquete:', err.message);
@@ -188,3 +193,5 @@ function handleRequest(request, callback) {
             callback({ status: 'error', message: 'Tipo no reconocido' });
     }
 }
+
+module.exports = handleRequest;
